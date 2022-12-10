@@ -1,36 +1,4 @@
 <?php get_header(); ?>
-    <style>
-        .website-from-wrapper {
-            width: 70%;
-            margin: 0 auto;
-            padding: 10px;
-        }
-
-        .form-field {
-            margin: 10px 0;
-        }
-
-        .form-field label {
-            display: block;
-        }
-
-        .form-field input {
-            display: block;
-            padding: 10px 10px;
-            border-radius: 5px;
-            width: 100%;
-            border: 1px solid #eeeeee;
-        }
-
-        .submit {
-            background: #000;
-            color: #fff;
-            padding: 10px;
-            border-radius: 5px;
-            text-transform: uppercase;
-            font-weight: 700;
-        }
-    </style>
     <div class="website-wrapper">
         <?php while (have_posts()):the_post(); ?>
             <div class="website-page-content">

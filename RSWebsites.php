@@ -45,6 +45,10 @@ class RSWebsites {
 	private function __construct() {
 
 		add_action( "init", array( $this, "register_websites_post_type" ), 0 ); // register websites post type
+		add_action( 'admin_menu', array(
+			$this,
+			'register_websites_menu'
+		) );
 		add_filter( "add_meta_boxes", array(
 			$this,
 			"alter_meta_boxes_websites"
@@ -121,10 +125,10 @@ class RSWebsites {
 			"hierarchical"        => false,
 			"public"              => false,
 			"show_ui"             => true,
-			"show_in_menu"        => true,
+			"show_in_menu"        => false,
 			"menu_position"       => 5,
 			"show_in_admin_bar"   => false,
-			"show_in_nav_menus"   => true,
+			"show_in_nav_menus"   => false,
 			"can_export"          => true,
 			"has_archive"         => true,
 			"exclude_from_search" => false,
@@ -143,14 +147,14 @@ class RSWebsites {
 		add_meta_box(
 			'url',
 			__( 'Website URL', 'sitepoint' ),
-			array($this, 'create_website_url_metabox'),
+			array( $this, 'create_website_url_metabox' ),
 			'websites'
 		);
-		if(is_admin()){
+		if ( is_admin() ) {
 			add_meta_box(
 				'code',
 				__( 'Source Code', 'sitepoint' ),
-				array($this, 'create_website_code_metabox'),
+				array( $this, 'create_website_code_metabox' ),
 				'websites'
 			);
 		}
@@ -225,6 +229,7 @@ class RSWebsites {
 
 	public function enqueue_script() {
 		wp_enqueue_script( "website-script", plugin_dir_url( __FILE__ ) . "/js/script.js", array( "jquery" ), "", true );
+		wp_enqueue_style( "website-style", plugin_dir_url( __FILE__ ) . "/css/style.css" );
 	}
 
 	public function add_new_website() {
@@ -265,6 +270,22 @@ class RSWebsites {
 		$value = get_post_meta( $post->ID, '_website_code', true );
 		echo '<textarea style="width:100%" id="code" name="_website_code" row="30" readonly>' . esc_attr( $value ) . '</textarea>';
 	}
+
+	/**
+	 * Register a custom menu page.
+	 */
+	function register_websites_menu() {
+		add_menu_page(
+			__( 'Websites', 'rs_websites' ),
+			'Websites',
+			 'edit_others_posts',
+			'edit.php?post_type=websites',
+			'',
+			'',
+			6
+		);
+	}
+
 }
 
 add_action( "plugins_loaded", array( "RSWebsites", "get_instance" ) );
