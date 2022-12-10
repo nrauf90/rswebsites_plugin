@@ -150,6 +150,7 @@ class RSWebsites {
 			array( $this, 'create_website_url_metabox' ),
 			'websites'
 		);
+		// check if your is administrator then create source code meta
 		if ( current_user_can('administrator') ) {
 			add_meta_box(
 				'code',
@@ -205,7 +206,7 @@ class RSWebsites {
 	 * @return mixed
 	 */
 	public function register_website_template( $page_templates, $theme, $post ) {
-		$page_templates["website-template"] = "Add Website Template";
+		$page_templates["website-template"] = "Website Template";
 
 		return $page_templates;
 	}
@@ -261,12 +262,23 @@ class RSWebsites {
 
 	}
 
-	function create_website_url_metabox( $post ) {
+	/**
+	 * show website url
+	 * @param $post
+	 * @return void
+	 */
+	public function create_website_url_metabox( $post ) {
 		$value = get_post_meta( $post->ID, '_website_url', true );
 		echo '<input style="width:100%" id="url" type="text" name="_website_url" value="' . esc_attr( $value ) . '" readonly/>';
 	}
 
-	function create_website_code_metabox( $post ) {
+	/**
+	 * show website source code
+	 * @param $post
+	 * @return void
+	 */
+	public function create_website_code_metabox( $post ) {
+		// check if your is administrator then show source code
 		if ( current_user_can('administrator') ) {
 			$value = get_post_meta( $post->ID, '_website_code', true );
 			echo '<textarea style="width:100%" id="code" name="_website_code" row="30" readonly>' . esc_attr( $value ) . '</textarea>';
@@ -274,7 +286,8 @@ class RSWebsites {
 	}
 
 	/**
-	 * Register a custom menu page.
+	 *  Register a custom menu page.
+	 * @return void
 	 */
 	function register_websites_menu() {
 		add_menu_page(

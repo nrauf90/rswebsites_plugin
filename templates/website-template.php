@@ -13,6 +13,7 @@
                 <h3>Add New Website</h3>
                 <form action="<?php echo admin_url('admin-ajax.php'); ?>?action=add_new_website" id="website-form">
 	                <?php wp_nonce_field(); ?>
+                    <div class="response-result"></div>
                     <div class="form-field">
                         <label for="name">Name:</label>
                         <input id="name" class="input-name" name="name" type="text" required>

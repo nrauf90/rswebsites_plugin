@@ -28,3 +28,18 @@
     text-transform: uppercase;
     font-weight: 700;
 }
+.response-result{
+    padding: 10px;
+    border-radius: 5px;
+    display: none;
+}
+.error{
+    color: #e83030;
+    border: 1px solid #e83030;
+    display: block;
+}
+.success{
+    color: #248b0f;
+    border: 1px solid #248b0f;
+    display: block;
+}
