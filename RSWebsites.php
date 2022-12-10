@@ -231,19 +231,19 @@ class RSWebsites {
 
 	public function add_new_website() {
 		// check if request is valid or not
-		if ( ! wp_verify_nonce( $_REQUEST["_wpnonce"] ) ) {
+		if ( ! wp_verify_nonce( $_POST["_wpnonce"] ) ) {
 			wp_send_json( array( "error" => true, "message" => "Invalid Request" ) );
 		} else {
 			$post    = array(
-				"post_title"  => $_REQUEST["name"],
+				"post_title"  => $_POST["name"],
 				"post_status" => "publish",
 				"post_type"   => "websites"
 			);
 			$post_id = wp_insert_post( $post );
-			update_post_meta( $post_id, "_website_url", $_REQUEST["url"] );
+			update_post_meta( $post_id, "_website_url", $_POST["url"] );
 
 			/* grab source code of provided URL*/
-			$response = wp_remote_get( $_REQUEST["url"], array(
+			$response = wp_remote_get( $_POST["url"], array(
 				'headers' => array(
 					'Accept' => 'application/json',
 				)
