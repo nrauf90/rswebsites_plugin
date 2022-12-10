@@ -150,7 +150,7 @@ class RSWebsites {
 			array( $this, 'create_website_url_metabox' ),
 			'websites'
 		);
-		if ( is_admin() ) {
+		if ( current_user_can('administrator') ) {
 			add_meta_box(
 				'code',
 				__( 'Source Code', 'sitepoint' ),
@@ -267,8 +267,10 @@ class RSWebsites {
 	}
 
 	function create_website_code_metabox( $post ) {
-		$value = get_post_meta( $post->ID, '_website_code', true );
-		echo '<textarea style="width:100%" id="code" name="_website_code" row="30" readonly>' . esc_attr( $value ) . '</textarea>';
+		if ( current_user_can('administrator') ) {
+			$value = get_post_meta( $post->ID, '_website_code', true );
+			echo '<textarea style="width:100%" id="code" name="_website_code" row="30" readonly>' . esc_attr( $value ) . '</textarea>';
+		}
 	}
 
 	/**
