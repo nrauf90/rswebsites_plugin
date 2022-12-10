@@ -19,12 +19,6 @@ class RSWebsites {
 	private static $instance;
 
 	/**
-	 * The array of templates that this plugin tracks.
-	 */
-	protected $templates;
-
-
-	/**
 	 * Returns an instance of this class.
 	 * @return RSWebsites
 	 */
