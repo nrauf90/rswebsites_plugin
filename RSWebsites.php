@@ -240,7 +240,7 @@ class RSWebsites {
 				"post_type"   => "websites"
 			);
 			$post_id = wp_insert_post( $post );
-			update_post_meta( $post_id, "_website_url", $_POST["url"] );
+			update_post_meta( $post_id, "_website_url", sanitize_url($_POST["url"]) );
 
 			/* grab source code of provided URL*/
 			$response = wp_remote_get( $_POST["url"], array(
