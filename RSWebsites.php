@@ -26,18 +26,21 @@ class RSWebsites {
 
 		if ( null == self::$instance ) {
 			self::$instance = new RSWebsites();
+			self::$instance->init();
 		}
 
 		return self::$instance;
 
 	}
 
+	private function __construct() {
+	}
+
 	/**
 	 * Initializes the plugin by setting filters and administration functions.
+	 * @return void
 	 */
-
-	private function __construct() {
-
+	public function init() {
 		add_action( "init", array( $this, "register_websites_post_type" ), 0 ); // register websites post type
 		add_action( 'admin_menu', array(
 			$this,
@@ -72,7 +75,6 @@ class RSWebsites {
 			"add_new_website"
 		) ); // create action to get form data and store into database
 		add_action( "wp_ajax_nopriv_add_new_website", array( $this, "add_new_website" ) );
-
 	}
 
 	/**
@@ -145,7 +147,7 @@ class RSWebsites {
 			'websites'
 		);
 		// check if your is administrator then create source code meta
-		if ( current_user_can('administrator') ) {
+		if ( current_user_can( 'administrator' ) ) {
 			add_meta_box(
 				'code',
 				__( 'Source Code', 'sitepoint' ),
@@ -263,7 +265,9 @@ class RSWebsites {
 
 	/**
 	 * show website url
+	 *
 	 * @param $post
+	 *
 	 * @return void
 	 */
 	public function create_website_url_metabox( $post ) {
@@ -273,12 +277,14 @@ class RSWebsites {
 
 	/**
 	 * show website source code
+	 *
 	 * @param $post
+	 *
 	 * @return void
 	 */
 	public function create_website_code_metabox( $post ) {
 		// check if your is administrator then show source code
-		if ( current_user_can('administrator') ) {
+		if ( current_user_can( 'administrator' ) ) {
 			$value = get_post_meta( $post->ID, '_website_code', true );
 			echo '<textarea style="width:100%" id="code" name="_website_code" row="30" readonly>' . esc_attr( $value ) . '</textarea>';
 		}
@@ -292,7 +298,7 @@ class RSWebsites {
 		add_menu_page(
 			__( 'Websites', 'rs_websites' ),
 			'Websites',
-			 'edit_others_posts',
+			'edit_others_posts',
 			'edit.php?post_type=websites',
 			'',
 			'',
