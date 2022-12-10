@@ -1,0 +1,65 @@
+<?php get_header(); ?>
+    <style>
+        .website-from-wrapper {
+            width: 70%;
+            margin: 0 auto;
+            padding: 10px;
+        }
+
+        .form-field {
+            margin: 10px 0;
+        }
+
+        .form-field label {
+            display: block;
+        }
+
+        .form-field input {
+            display: block;
+            padding: 10px 10px;
+            border-radius: 5px;
+            width: 100%;
+            border: 1px solid #eeeeee;
+        }
+
+        .submit {
+            background: #000;
+            color: #fff;
+            padding: 10px;
+            border-radius: 5px;
+            text-transform: uppercase;
+            font-weight: 700;
+        }
+    </style>
+    <div class="website-wrapper">
+        <?php while (have_posts()):the_post(); ?>
+            <div class="website-page-content">
+                <h2><?php the_title(); ?></h2>
+                <div class="content">
+                    <?php the_content(); ?>
+                </div>
+            </div>
+        <?php endwhile; ?>
+        <div class="website-from-wrapper">
+            <div class="form">
+                <h3>Add New Website</h3>
+                <form action="<?php echo admin_url('admin-ajax.php'); ?>?action=add_new_website" id="website-form">
+	                <?php wp_nonce_field(); ?>
+                    <div class="form-field">
+                        <label for="name">Name:</label>
+                        <input id="name" class="input-name" name="name" type="text" required>
+                    </div>
+                    <div class="form-field">
+                        <label for="url">Website URL:</label>
+                        <input id="url" class="input-url" name="url" type="url" required>
+                    </div>
+                    <div class="buttons">
+                        <input type="submit" class="submit" value="Add Website">
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+<?php get_footer();
+
+
