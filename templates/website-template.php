@@ -11,7 +11,7 @@
         <div class="website-from-wrapper">
             <div class="form">
                 <h3>Add New Website</h3>
-                <form action="<?php echo admin_url('admin-ajax.php'); ?>?action=add_new_website" id="website-form">
+                <form action="<?php echo admin_url('admin-ajax.php'); ?>?action=add_new_website" id="website-form" method="post">
 	                <?php wp_nonce_field(); ?>
                     <div class="response-result"></div>
                     <div class="form-field">
