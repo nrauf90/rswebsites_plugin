@@ -228,6 +228,7 @@ class RSWebsites {
 	}
 
 	public function add_new_website() {
+		// check if request is valid or not
 		if ( ! wp_verify_nonce( $_REQUEST["_wpnonce"] ) ) {
 			wp_send_json( array( "error" => true, "message" => "Invalid Request" ) );
 		} else {
@@ -238,17 +239,21 @@ class RSWebsites {
 			);
 			$post_id = wp_insert_post( $post );
 			update_post_meta( $post_id, "_website_url", $_REQUEST["url"] );
+
+			/* grab source code of provided URL*/
 			$response = wp_remote_get( $_REQUEST["url"], array(
 				'headers' => array(
 					'Accept' => 'application/json',
 				)
 			) );
+			// if error return save no source code
 			if ( ( ! is_wp_error( $response ) ) && ( 200 === wp_remote_retrieve_response_code( $response ) ) ) {
 				$responseBody = json_decode( $response['body'] );
 				if ( json_last_error() === JSON_ERROR_NONE ) {
 					update_post_meta( $post_id, "_website_code", "No source code found!" );
 				}
 			} else {
+				// save source code
 				update_post_meta( $post_id, "_website_code", $response['body'] );
 			}
 			wp_send_json( array( "success" => true, "message" => "Website added successfully" ) );
